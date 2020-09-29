@@ -1,0 +1,38 @@
+/* Core variables */
+@import 'base/vars';
+
+/* CSS Reset */
+@import 'base/reset';
+
+/* CSS print */
+@import 'base/print';
+
+/* Fonts */
+@import 'base/fonts';
+
+/* Components */
+@import 'components/animations';
+@import 'components/button';
+@import 'components/controls';
+@import 'components/enter';
+@import 'components/loader';
+@import 'components/overlay';
+@import 'components/transcript';
+
+/* Browser specific styles */
+@import 'shame/shame';
+
+
+/* General styles */
+
+html {
+  /* 1rem = 10px */
+  font-size: 62.5%;
+}
+
+body {
+  background: $body-background-color;
+  color: $color-primary;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.8rem;
+}

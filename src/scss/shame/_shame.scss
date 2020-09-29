@@ -1,0 +1,24 @@
+/**
+ * Shame
+*/
+
+// Hide unnecessary orientation modal from Aframe
+.a-orientation-modal {
+  display: none !important;
+}
+
+// Always show scrollbar
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: $color-primary; /* rgba(236, 202, 184, 1); */
+}
+
+// Remove blue tap highlight
+.c-button--start {
+  -webkit-tap-highlight-color: transparent;
+}

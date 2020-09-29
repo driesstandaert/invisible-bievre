@@ -1,0 +1,28 @@
+/* ************************ 
+  Animations
+************************  */
+
+.c-transcript {
+  position: absolute;
+  max-width: 400px;
+  max-height: 240px;
+  overflow-y: scroll;
+  z-index: 1000;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.6rem;
+  color: $white;
+  bottom: 100px;
+  padding: 0 20px;
+  opacity: 0;
+  transition: 300ms opacity ease;
+  background: transparent;
+}
+
+.c-transcript.is-open {
+  opacity: 1;
+  transition: 300ms opacity ease;
+}
+
+.c-transcript__paragraph {
+  margin: 0 0 10px;
+}

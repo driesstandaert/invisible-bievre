@@ -1,0 +1,85 @@
+/* ************************ 
+  AR/VR enter buttons 
+************************  */
+
+.c-enter {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.c-enter.is-visible {
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+.c-enter-ar,
+.c-enter-vr {
+  font-weight: bold;
+  width: 100%;
+  line-height: 16px;
+}
+
+.c-enter-vr {
+  display: none;
+}
+
+.c-enter-vr-button,
+.c-enter-vr-modal,
+.c-enter-vr-modal a {
+  color: $color-primary;
+  user-select: none;
+  outline: 0;
+}
+
+.c-enter-vr-button {
+  background-color: $color-primary;
+  color: $black;
+}
+
+.c-enter-ar-button {
+  background-color: $color-primary;
+  color: $black;
+}
+
+.c-enter-ar-button,
+.c-enter-vr-button {
+  cursor: pointer;
+  transition: background-color .05s ease;
+  z-index: 9999;
+  border-radius: 20px;
+  touch-action: manipulation;
+  padding: 10px 20px;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 2.8px;
+}
+
+.c-enter-ar-button:active,
+.c-enter-ar-button:hover,
+.c-enter-vr-button:active,
+.c-enter-vr-button:hover {
+  background-color: $color-secondary;
+  color: $black;
+}
+
+.c-enter-vr-button.resethover {
+  background-color: $color-black-trans-light;
+}
+
+[data-c-enter-vr-no-webvr] .c-enter-vr-button {
+  border-color: $black;
+  opacity: .65;
+}
+
+[data-c-enter-vr-no-webvr] .c-enter-vr-button:active,
+[data-c-enter-vr-no-webvr] .c-enter-vr-button:hover {
+  background-color: $color-black-trans-light;
+  cursor: not-allowed;
+}

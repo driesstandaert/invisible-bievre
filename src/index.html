@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Invisible Bievre</title>
+  <meta name="description" content="Invisible Bievre">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <script src="./js/vendor/aframe/aframe-v1.0.4.min.js"></script>
+  <script src="./js/vendor/aframe/aframe-custom.js"></script>
+  <script src="./js/vendor/aframe/aframe-curve-component.min.js"></script>
+  <script src="./js/vendor/aframe/aframe-alongpath-component.min.js"></script>
+  <script src="./js/app.js"></script>
+</head>
+<body>
+  <a-scene vr-mode-ui="enterVRButton: #myEnterVRButton; enterARButton: #myEnterARButton"
+    loading-screen="enabled: false">
+    <a-assets>
+      <a-asset-item id="beaver" src="./assets/models/beaver/scene.gltf"></a-asset-item>
+      <a-asset-item id="trout" src="./assets/models/trout/scene.gltf"></a-asset-item>
+      <a-asset-item id="landscape" src="./assets/models/landscape/scene3.gltf"></a-asset-item>
+      <a-asset-item id="bridge" src="./assets/models/bridge/scene.gltf"></a-asset-item>
+      <a-asset-item id="tree" src="./assets/models/tree/scene.gltf"></a-asset-item>
+      <a-asset-item id="stick" src="./assets/models/stick/scene.gltf"></a-asset-item>
+      <a-asset-item id="stick2" src="./assets/models/stick2/scene.gltf"></a-asset-item>
+      <a-asset-item id="bird" src="./assets/models/bird/scene.gltf"></a-asset-item>
+      <img id="water-normal" src="./assets/textures/waternormals.jpg" crossorigin="anonymous" />
+      <img id="skysphere" src="./assets/textures/riverbed.jpg" crossorigin="anonymous" />
+      <img id="reflection" src="./assets/textures/reflection.jpg" crossorigin="anonymous" />
+      <img id="tree-1" src="./assets/textures/tree-1.png" crossorigin="anonymous" />
+      <img id="tree-2" src="./assets/textures/tree-2.png" crossorigin="anonymous" />
+      <img id="trees" src="./assets/textures/trees.png" crossorigin="anonymous" />
+      <img id="cloud" src="./assets/textures/cloud.png" crossorigin="anonymous" />
+      <img id="cloud-2" src="./assets/textures/cloud-2.png" crossorigin="anonymous" />
+    </a-assets>
+
+    <!-- Camera -->
+    <a-entity camera="active: true;" look-controls position="0 1.6 0" camera-logger></a-entity>
+
+    <!-- Group -->
+    <a-entity class="js-group" rotation="0 180 0">
+
+      <!-- Light -->
+      <a-entity 
+        class="js-light"
+        position="-10 100 100" 
+        light="color: #ffffff; intensity: 0"
+      ></a-entity>
+
+      <!-- Water plane -->
+      <a-ocean-plane material="normalMap: #water-normal; sphericalEnvMap: #reflection;" position="0 0 0" box-loader>
+      </a-ocean-plane>
+
+      <!-- Sky background -->
+      <a-sky src="#skysphere" transparent-in-ar-mode></a-sky>
+        <a-sky class="js-sky" color="#2B3036">
+      </a-sky>
+
+      <!-- Landscape -->
+      <a-entity 
+        id="model-landscape"
+        gltf-model="#landscape" 
+        scale="1 1 1" 
+        position="11.5 -5.5 -3"
+        rotation="0 0 0"
+        play-all-model-animations
+        box-loader
+        >
+      </a-entity>
+
+      <!-- bridge -->
+      <a-entity 
+        id="model-bridge"
+        gltf-model="#bridge" 
+        scale="1 1 1" 
+        position="13.5 -5.5 -2" 
+        rotation="0 0 0"
+        play-all-model-animations
+        box-loader 
+        hide-in-ar-mode
+        >
+      </a-entity>
+
+      <!-- cloud -->
+      <a-image 
+        id="img-cloud" 
+        class="js-cloud"
+        src="#cloud" 
+        width="10" height="6" 
+        position="100 40 100" 
+        rotation="0 0 0" 
+        scale="20 20 20"
+        animation="property: position; to: 20 40 100; loop: true; dur: 100000; easing: linear; dir:alternate;"
+        transparent-in-ar-mode
+      ></a-image>
+
+      <a-image 
+        id="img-cloud" 
+        class="js-cloud2"
+        src="#cloud-2" 
+        width="10" height="5" 
+        position="-120 40 100" 
+        rotation="0 0 0" 
+        scale="20 20 20"
+        transparent-in-ar-mode
+      ></a-image>
+
+      <!-- tree -->
+      <a-image id="img-trees-1" src="#trees" width="30" height="18" position="18.5 9 18" rotation="0 244 0" transparent-in-ar-mode></a-image>
+      <a-image id="img-trees-2" src="#tree-2" width="30" height="16" position="15 6 23" rotation="0 244 0" scale=".9 .9 .9" transparent-in-ar-mode></a-image>
+      <a-image id="img-trees-3" src="#trees" width="30" height="18" position="-24 8 26" rotation="0 -50 0" scale="1 1 1" transparent-in-ar-mode></a-image>
+      <a-image id="img-trees-4" src="#tree-2" width="30" height="16" position="-26 7 -2" rotation="0 -80 10" scale=".5 .5 .5" transparent-in-ar-mode></a-image>
+     
+      <a-entity
+      id="model-tree"
+      gltf-model="#tree" 
+      scale="1 1 1"
+      position="-7 2 3"
+      rotation="0 0 0"
+      play-all-model-animations
+      box-loader
+      >
+      </a-entity>
+
+      <!-- Beaver -->
+      <a-entity 
+          rotation="-12 0 0"
+          alongpath="curve: #track_beaver;dur:157000;loop:true"
+          animation="property: rotation; from: -12 0 0; to: -12 40 0; loop: true; dur: 157000; easing: linear;"
+        >
+        <a-entity 
+          id="model-beaver"
+          gltf-model="#beaver" 
+          scale="2 2 2"
+          position="0 0 0"
+          rotation="0 170 0"
+          play-all-model-animations
+          box-loader
+          >
+          <a-light type="point" color="white" position="0.5 1.5 0" distance="10" angle="0"></a-light>
+          <a-light type="point" color="white" position="0 1 -1.5" distance="4" angle="180"></a-light>
+        </a-entity>
+      </a-entity> 
+
+      <a-curve id="track_beaver">
+        <a-curve-point position="8 -1.25 -14"></a-curve-point>
+        <a-curve-point position="4 -1.25 48"></a-curve-point>
+        <a-curve-point position="22 -1.25 93"></a-curve-point>
+      </a-curve>
+
+      <!-- trout -->
+      <a-entity 
+          rotation="0 0 0" 
+          position="5 -1 2" 
+          animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear; dir:reverse;"
+          animation__pos="property: position; to: 2 -1 2; loop:true; dur: 10000; easing: linear; dir:alternate;"
+        >
+          <a-entity 
+          id="model-trout"
+          gltf-model="#trout"
+          rotation="0 20 0"
+          scale=".5 .5 .5" 
+          position="2 -.25 0" 
+          play-all-model-animations
+          box-loader
+        >
+        </a-entity>
+      </a-entity>
+
+      <!-- sticks -->
+      <a-entity 
+        rotation="0 0 0"
+        alongpath="curve: #track_stick1;dur:40000;loop:true"   
+      >
+        <a-entity 
+        id="model-stick1"
+        gltf-model="#stick"
+        rotation="0 0 0"
+        scale="1 1 1" 
+        position="2 -.15 0" 
+        play-all-model-animations
+        box-loader
+        >
+        </a-entity>
+      </a-entity>
+
+      <a-curve id="track_stick1">
+        <a-curve-point position="12.5 0 57"></a-curve-point>
+        <a-curve-point position="4.5 0 43"></a-curve-point>
+        <a-curve-point position="17 0 -40"></a-curve-point>
+      </a-curve>
+
+      <!-- sticks -->
+      <a-entity 
+        rotation="0 -90 0" 
+        position="-5 0 40" 
+        animation__1="property: position; to: 11 0 -40; loop:true; dur: 40000; easing: linear; delay:7000;"
+      >
+        <a-entity 
+        id="model-stick2"
+        gltf-model="#stick2"
+        rotation="0 0 0"
+        scale=".4 .4 .4" 
+        position="0 -.05 0" 
+        play-all-model-animations
+        box-loader
+        >
+        </a-entity>
+      </a-entity> 
+
+      <!-- sticks -->
+      <a-entity 
+        rotation="0 0 0" 
+        alongpath="curve: #track_stick3;dur:40000;loop:true;delay:20000;" 
+      >
+        <a-entity 
+        id="model-stick3"
+        gltf-model="#stick"
+        rotation="0 90 0"
+        scale=".5 .5 .5" 
+        position="2 -.05 0" 
+        play-all-model-animations
+        box-loader
+        >
+        </a-entity>
+      </a-entity>
+
+      <a-curve id="track_stick3">
+        <a-curve-point position="12.5 0 57"></a-curve-point>
+        <a-curve-point position="4.5 0 43"></a-curve-point>
+        <a-curve-point position="12 0 -40"></a-curve-point>
+      </a-curve>
+
+      <!-- bird -->
+      <a-entity 
+       rotation="0 0 0" 
+       position="4 40 100" 
+       animation__1="property: position; to: 16 40 -40; loop:true; dur: 40000; easing: linear;"
+      >
+       <a-entity 
+       id="model-bird"
+       gltf-model="#bird"
+       rotation="0 0 0"
+       scale=".5 .5 .5" 
+       position="0 0 0" 
+       play-all-model-animations
+       box-loader
+       >
+       </a-entity>
+     </a-entity>
+
+    </a-entity>
+
+    <!-- AR/VR buttons -->
+    <div class="c-enter js-enter">
+      <div id="myEnterARButton" class="c-enter-ar ">
+        <button class="c-enter-ar-button anime-pulse">AR</button>
+      </div>
+      <div id="myEnterVRButton" class="c-enter-vr">
+        <button class="c-enter-vr-button">VR</button>
+      </div>
+    </div>
+
+
+  </a-scene>
+
+  <!-- Audio controls -->
+  <div class="c-controls js-controls">
+    <div class="c-controls__mute js-mute__button">
+      <button class="c-mute__button"><span></span></button>
+    </div>
+    <div class="c-controls__play">
+      <button class="c-play__button js-play__button"></button>
+    </div>
+    <div class="c-controls__transcript js-transcript__button">
+      <button class="c-transcript__button"><span></span></button>
+    </div>
+  </div>
+
+  <!-- Transcript -->
+  <div class="c-transcript js-transcript">
+    <p class="c-transcript__paragraph"> Vous êtes ici. A la croisée des rues, a la croisée des flux. Au dessus, 145 000 mètre cube d'eaux venues de Rungis et du bassin de la Vanne migre chaque jour vers la capitale dans les interminables tuyaux des aqueducs. S’ils sont d’habitude discrets et souterrains, ils surgissent ici de terre pour enjamber d’un pont une rivière et sa vallée. </p>
+    <p class="c-transcript__paragraph">Sous vos pieds, c’est la Bièvre ; vous la voyez maintenant ? Passée sous silence il y a plus d’un siècle, cette rivière millénaire a longtemps coulé librement, sillonnant et arrosant des prés et des coteaux couverts de vignes, qui feront dès le Moyen Age la réputation et la richesse des moines et seigneurs de la région. Car si les arches de l’aqueduc ont donné à Arcueil son nom, La Bièvre, elle, a profondément marqué son paysage, son histoire et son identité. Même disparue, son esprit et sa silhouette hantent encore l’espace urbain des communes d’Arcueil et de Cachan, y façonnant le tracé des avenues et le relief des buttes, influençant leurs noms de rues et stimulant l’imagination de leurs habitants.</p>
+    <p class="c-transcript__paragraph">Ah, si la Bièvre pouvait parler ! Elle vous relaterait les milliers d’années passés à courir les campagnes désertes, creusant patiemment son sillage au creux des plateaux, et l’abondance de ses berges et de ses flots poissonneux ; elle vous raconterait Lutèce, les premiers ponts et l’aqueduc qu’elle a vu s’élever ; les moulins et abbayes qui s’installèrent sur ses rives encore champêtres, et le sillage de parcs et châteaux qui leur ont succédé ; comme elle s’est sentie flattée de l’attention que lui accordèrent une jeune bande poètes, exaltés par les flots de son cours et de son vin. C’était en 1549, Pierre de Ronsard écrivait:</p>
+    <p class="c-transcript__paragraph">
+      Suivons la sainte trace humide<br/>
+      Suivons la sainte trace humide<br/>
+      De ce guide<br/>
+      Elançons nous comme lui<br/>
+      Et lavons dans cette rive<br/>
+      En l’eau vive<br/>
+      Pour tout jamais notre ennui<br/>
+    </p>
+    <p class="c-transcript__paragraph">La suite plus tragique de son histoire vous la connaissez peut être, c’est le récit d’une urbanisation folle qui en a oublié l’importance de la nature dans la vie humaine, plongeant le cours de la Bièvre dans la disgrâce et l’ombre. Mais c’est aussi aujourd’hui d’une volonté humaine que son cours revoit par endroits le jour, lui rendant sa place et sa valeur au sein des rues asphaltées. Alors suivez sa trace, écoutez la parler, et laissez la vous faire imaginer la ville dans laquelle elle pourrait exister…</p>
+  </div>
+
+  <!-- Loading screen -->
+  <div class="c-loader js-loader is-visible"> 
+    <svg id="svg-loader" class="c-loader__svg" width="100" height="82" viewBox="0 0 100 82">
+      <path stroke="#000000" stroke-width="3" fill="none" d="M94.5879 16.2097C94.2869 15.4925 93.1187 13.8964 91.2965 13.9108C89.4744 13.9253 88.1464 13.5378 84.8976 12.0967C81.6489 10.6556 81.85 12.0126 78.0697 11.7315C74.2908 11.4504 74.2375 13.3381 70.8476 12.8205C67.4576 12.3029 66.36 12.7181 64.7936 12.7969C63.2272 12.8757 61.5621 11.1062 59.5082 10.3903C57.4541 9.67435 55.1512 6.99057 45.9722 4.98071C36.7933 2.97083 28.0061 7.32162 24.3684 9.58502C20.7306 11.8484 20.7306 13.7795 19.9182 16.4002C19.1056 19.0209 18.9337 19.641 16.9277 21.6614C14.9217 23.6817 16.0792 25.9976 15.8275 28.2085C15.5757 30.4194 16.5454 27.7764 16.8505 29.9293C17.1555 32.0824 16.6507 35.9353 15.6956 38.4325C14.7406 40.9298 18.0653 48.3821 18.9297 46.2619C19.7943 44.1416 20.5748 43.4652 19.914 45.4343C19.2534 47.4035 15.3373 52.4675 13.1941 55.7228C11.0509 58.9779 10.1105 62.5024 6.99359 65.3149C3.87668 68.1275 6.01589 70.467 6.87105 72.0499C7.72619 73.633 9.53907 74.3685 12.4255 76.3836C15.312 78.3987 19.2414 77.6592 21.2675 76.8526C23.2934 76.0461 27.1563 76.8015 29.2408 74.7982C31.3241 72.7935 31.5705 66.7928 31.6771 64.6213C31.7836 62.4499 32.1366 61.0391 32.3964 58.5983C32.6561 56.1576 32.4031 56.4163 32.0953 53.2216C31.7876 50.0268 30.0441 47.2234 30.0441 47.2234C30.0441 47.2234 31.0817 46.4261 31.7703 46.8307C32.459 47.2353 34.2505 50.8715 33.9748 52.4807C33.699 54.0911 34.2305 54.1122 34.5849 55.5822C34.9392 57.0521 35.2348 59.8016 34.6435 61.1429C34.0521 62.484 34.7807 62.2857 34.5729 63.3708C34.365 64.4558 33.699 65.0036 34.7273 65.022C35.7571 65.0404 36.4151 64.1497 35.9794 65.1245C35.5439 66.0991 33.6592 66.9451 34.8593 67.0424C36.0593 67.1396 37.2609 65.7996 37.2409 66.4486C37.2209 67.0963 35.6864 68.289 35.6864 68.289C35.6864 68.289 35.1217 68.8421 37.2982 68.1603C39.4746 67.4784 40.7401 65.3727 41.4048 62.4709C42.0695 59.5691 41.9721 57.42 41.6939 54.66C41.4154 51.9 44.0981 46.7007 44.2846 43.8763C44.4711 41.0519 44.3512 40.2415 44.3512 40.2415C44.3512 40.2415 45.3036 39.4191 46.6635 39.1433C48.0236 38.8673 49.5554 39.0277 50.9567 39.0474C52.3579 39.067 51.2457 40.7643 50.3532 41.3751C49.4607 41.9859 46.9726 45.1164 46.5969 45.7824C46.2213 46.4484 45.2356 46.5062 45.2356 46.5062C45.2356 46.5062 45.3288 47.1315 46.0388 47.037C46.7488 46.9423 47.0191 46.8307 46.906 47.3259C46.7928 47.8211 45.7045 47.8488 46.3306 48.0261C46.9565 48.2035 48.1421 47.632 48.1421 47.632L47.8251 48.1521C49.1717 47.8317 49.9004 46.9279 51.0526 45.7115C52.2061 44.4937 54.1961 44.5252 57.2451 42.0043C60.2954 39.4834 61.2678 38.1343 62.8941 36.7734C64.5191 35.4125 67.5162 33.0993 71.1538 34.9356C74.7916 36.7708 79.4936 35.1971 81.9565 34.5731C84.4194 33.9492 85.2573 33.6522 86.2723 32.9363C87.2872 32.2204 89.7781 30.1684 90.885 29.6996C91.9919 29.2306 93.4851 26.4757 94.259 24.4291C95.0328 22.3825 93.846 18.6964 93.846 18.6964C93.846 18.6964 94.8904 16.927 94.5879 16.2097Z"/>
+      <path class="c-loader__path" stroke-width="3" fill="none" d="M94.5879 16.2097C94.2869 15.4925 93.1187 13.8964 91.2965 13.9108C89.4744 13.9253 88.1464 13.5378 84.8976 12.0967C81.6489 10.6556 81.85 12.0126 78.0697 11.7315C74.2908 11.4504 74.2375 13.3381 70.8476 12.8205C67.4576 12.3029 66.36 12.7181 64.7936 12.7969C63.2272 12.8757 61.5621 11.1062 59.5082 10.3903C57.4541 9.67435 55.1512 6.99057 45.9722 4.98071C36.7933 2.97083 28.0061 7.32162 24.3684 9.58502C20.7306 11.8484 20.7306 13.7795 19.9182 16.4002C19.1056 19.0209 18.9337 19.641 16.9277 21.6614C14.9217 23.6817 16.0792 25.9976 15.8275 28.2085C15.5757 30.4194 16.5454 27.7764 16.8505 29.9293C17.1555 32.0824 16.6507 35.9353 15.6956 38.4325C14.7406 40.9298 18.0653 48.3821 18.9297 46.2619C19.7943 44.1416 20.5748 43.4652 19.914 45.4343C19.2534 47.4035 15.3373 52.4675 13.1941 55.7228C11.0509 58.9779 10.1105 62.5024 6.99359 65.3149C3.87668 68.1275 6.01589 70.467 6.87105 72.0499C7.72619 73.633 9.53907 74.3685 12.4255 76.3836C15.312 78.3987 19.2414 77.6592 21.2675 76.8526C23.2934 76.0461 27.1563 76.8015 29.2408 74.7982C31.3241 72.7935 31.5705 66.7928 31.6771 64.6213C31.7836 62.4499 32.1366 61.0391 32.3964 58.5983C32.6561 56.1576 32.4031 56.4163 32.0953 53.2216C31.7876 50.0268 30.0441 47.2234 30.0441 47.2234C30.0441 47.2234 31.0817 46.4261 31.7703 46.8307C32.459 47.2353 34.2505 50.8715 33.9748 52.4807C33.699 54.0911 34.2305 54.1122 34.5849 55.5822C34.9392 57.0521 35.2348 59.8016 34.6435 61.1429C34.0521 62.484 34.7807 62.2857 34.5729 63.3708C34.365 64.4558 33.699 65.0036 34.7273 65.022C35.7571 65.0404 36.4151 64.1497 35.9794 65.1245C35.5439 66.0991 33.6592 66.9451 34.8593 67.0424C36.0593 67.1396 37.2609 65.7996 37.2409 66.4486C37.2209 67.0963 35.6864 68.289 35.6864 68.289C35.6864 68.289 35.1217 68.8421 37.2982 68.1603C39.4746 67.4784 40.7401 65.3727 41.4048 62.4709C42.0695 59.5691 41.9721 57.42 41.6939 54.66C41.4154 51.9 44.0981 46.7007 44.2846 43.8763C44.4711 41.0519 44.3512 40.2415 44.3512 40.2415C44.3512 40.2415 45.3036 39.4191 46.6635 39.1433C48.0236 38.8673 49.5554 39.0277 50.9567 39.0474C52.3579 39.067 51.2457 40.7643 50.3532 41.3751C49.4607 41.9859 46.9726 45.1164 46.5969 45.7824C46.2213 46.4484 45.2356 46.5062 45.2356 46.5062C45.2356 46.5062 45.3288 47.1315 46.0388 47.037C46.7488 46.9423 47.0191 46.8307 46.906 47.3259C46.7928 47.8211 45.7045 47.8488 46.3306 48.0261C46.9565 48.2035 48.1421 47.632 48.1421 47.632L47.8251 48.1521C49.1717 47.8317 49.9004 46.9279 51.0526 45.7115C52.2061 44.4937 54.1961 44.5252 57.2451 42.0043C60.2954 39.4834 61.2678 38.1343 62.8941 36.7734C64.5191 35.4125 67.5162 33.0993 71.1538 34.9356C74.7916 36.7708 79.4936 35.1971 81.9565 34.5731C84.4194 33.9492 85.2573 33.6522 86.2723 32.9363C87.2872 32.2204 89.7781 30.1684 90.885 29.6996C91.9919 29.2306 93.4851 26.4757 94.259 24.4291C95.0328 22.3825 93.846 18.6964 93.846 18.6964C93.846 18.6964 94.8904 16.927 94.5879 16.2097Z"/>
+    </svg>
+    <span class="c-loader__instructions">Préparez votre expérience...</span>
+  </div>
+
+  <!-- Begin screen -->
+  <div class="c-overlay c-overlay--landing js-landing is-visible">
+    <div class="c-overlay__content js-landing-content">
+      <div class="c-overlay__logo anime-fadein">
+        <svg class="js-logo" width="100%" height="100%" viewBox="0 0 319 270" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="64.8952" cy="60.39" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="57.6872" cy="72.103" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="64.8952" cy="74.806" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="62.1921" cy="68.499" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="74.8054" cy="71.2019" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="71.2019" cy="56.786" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="75.7067" cy="53.1819" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="59.489" cy="52.2809" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="58.5886" cy="43.2709" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="80.2116" cy="47.7759" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="73.0036" cy="60.39" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="60.3893" cy="76.6079" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="61.2907" cy="63.994" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="84.7175" cy="38.7659" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="90.1227" cy="33.3599" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="84.7175" cy="32.4589" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="77.5095" cy="26.1519" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="91.0241" cy="36.9639" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="96.4304" cy="34.2609" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="95.529" cy="29.7559" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="90.1227" cy="21.6469" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="100.935" cy="29.7559" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="88.321" cy="39.6669" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="107.242" cy="27.9539" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="103.638" cy="27.0529" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="99.1325" cy="8.1319" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="105.44" cy="19.8449" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="118.956" cy="1.8249" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="109.044" cy="25.2509" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="115.351" cy="24.3499" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="115.351" cy="18.0429" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="119.855" cy="24.3499" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="111.748" cy="23.4489" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="146.885" cy="18.9439" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="143.282" cy="19.8449" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="138.777" cy="18.0429" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="141.48" cy="16.2409" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="129.767" cy="15.3399" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="129.767" cy="24.3499" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="152.293" cy="11.7359" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="152.293" cy="17.1419" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="155.896" cy="15.3399" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="160.401" cy="14.4389" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="164.906" cy="16.2409" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="164.006" cy="9.0329" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="171.214" cy="21.6469" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="174.817" cy="21.6469" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="176.619" cy="18.0429" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="184.728" cy="17.1419" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="181.124" cy="28.8549" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="177.52" cy="27.0529" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="184.728" cy="29.7559" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="179.323" cy="24.3499" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="191.936" cy="34.2609" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="196.441" cy="37.8649" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="200.946" cy="24.3499" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="211.758" cy="26.1519" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="200.045" cy="38.7659" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="200.946" cy="35.1619" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="204.55" cy="41.4689" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="211.758" cy="38.7659" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="215.362" cy="41.4689" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="211.758" cy="41.4689" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="220.767" cy="43.2709" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="216.263" cy="45.0729" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="208.154" cy="45.0729" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="218.065" cy="51.3799" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="228.877" cy="54.984" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="229.778" cy="50.4789" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="231.581" cy="57.687" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="236.986" cy="61.291" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="233.382" cy="54.984" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="236.085" cy="53.1819" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="239.688" cy="58.588" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="242.392" cy="61.291" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="245.997" cy="62.192" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="248.699" cy="58.588" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="255.907" cy="63.093" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="264.016" cy="62.192" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="275.729" cy="64.8949" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="272.126" cy="54.984" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="279.334" cy="65.7959" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="253.204" cy="63.093" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="253.204" cy="58.588" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="218.966" cy="35.1619" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="299.156" cy="71.2019" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="300.957" cy="80.212" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="289.244" cy="68.499" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="308.165" cy="72.103" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="302.759" cy="71.2019" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="293.749" cy="70.301" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="299.156" cy="62.192" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="290.145" cy="62.192" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="308.165" cy="80.212" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="304.561" cy="78.41" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="317.175" cy="89.2219" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="312.671" cy="83.816" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="317.175" cy="98.232" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="311.769" cy="78.41" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="283.839" cy="65.7959" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="314.471" cy="107.242" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="316.274" cy="102.737" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="317.175" cy="80.212" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="308.165" cy="116.252" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="309.066" cy="125.262" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="300.055" cy="125.262" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="309.066" cy="134.272" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="299.156" cy="130.668" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="303.66" cy="123.46" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="312.671" cy="111.747" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="302.759" cy="127.965" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="295.551" cy="130.668" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="291.947" cy="133.371" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="310.868" cy="117.153" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="282.036" cy="134.272" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="280.234" cy="136.074" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="275.729" cy="137.876" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="257.71" cy="146.886" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="239.688" cy="119.856" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="230.679" cy="119.856" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="234.283" cy="123.46" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="230.679" cy="113.549" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="227.976" cy="117.153" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="234.283" cy="113.549" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="273.026" cy="114.45" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="275.729" cy="115.351" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="270.323" cy="117.153" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="238.789" cy="126.163" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="264.016" cy="141.48" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="282.036" cy="141.48" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="269.423" cy="141.48" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="264.016" cy="145.084" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="253.204" cy="145.084" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="245.997" cy="150.49" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="227.976" cy="150.49" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="255.006" cy="168.51" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="236.986" cy="168.51" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="300.055" cy="150.49" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="282.036" cy="159.5" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="291.047" cy="150.49" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="273.026" cy="159.5" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="245.997" cy="143.282" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="236.986" cy="138.777" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="240.59" cy="143.282" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="227.976" cy="136.074" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="218.966" cy="134.272" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="218.966" cy="138.777" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="209.956" cy="138.777" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="200.946" cy="143.282" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="191.936" cy="146.886" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="189.233" cy="148.688" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="158.992" cy="135.132" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="214.461" cy="136.975" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="164.906" cy="161.302" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="169.411" cy="158.599" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="174.817" cy="154.995" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="173.014" cy="161.302" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="182.926" cy="153.193" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="209.956" cy="152.292" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="200.946" cy="153.193" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="207.253" cy="146.886" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="217.164" cy="143.282" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="218.966" cy="152.292" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="226.174" cy="139.678" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="200.946" cy="147.787" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="191.035" cy="154.995" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="182.926" cy="161.302" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="196.441" cy="144.183" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="159.5" cy="163.104" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="149.59" cy="132.47" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="158.599" cy="132.47" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="154.093" cy="132.47" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="150.49" cy="136.975" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="163.104" cy="141.48" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="162.203" cy="136.074" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="166.708" cy="136.074" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="147.787" cy="142.381" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="146.885" cy="145.084" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="146.885" cy="148.688" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="146.885" cy="157.698" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="140.579" cy="166.708" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="137.877" cy="175.718" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="133.371" cy="184.728" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="132.469" cy="191.936" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="135.173" cy="189.233" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="145.085" cy="183.827" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="151.391" cy="163.104" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="155.896" cy="148.688" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="153.193" cy="151.391" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="149.59" cy="153.193" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="146.885" cy="166.708" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="173.916" cy="193.738" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="200.946" cy="175.718" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="191.936" cy="184.728" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="200.946" cy="193.738" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="137.877" cy="202.748" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="122.559" cy="218.065" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="113.549" cy="226.174" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="118.956" cy="224.372" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="104.54" cy="218.065" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="131.569" cy="227.976" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="122.559" cy="223.471" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="104.54" cy="227.075" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="100.935" cy="218.065" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="101.836" cy="222.57" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="89.2224" cy="227.075" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="95.529" cy="218.065" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="95.529" cy="227.075" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="127.965" cy="212.659" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="101.836" cy="202.748" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="101.836" cy="184.728" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="101.836" cy="193.738" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="103.638" cy="190.134" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="100.034" cy="206.352" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="95.529" cy="206.352" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="61.2907" cy="148.688" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="54.9841" cy="154.995" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="49.5778" cy="160.401" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="105.44" cy="166.708" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="103.638" cy="149.589" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="110.846" cy="157.698" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="110.846" cy="163.104" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="109.945" cy="175.718" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="107.242" cy="184.728" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="95.529" cy="211.758" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="32.4587" cy="238.788" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="37.8649" cy="240.59" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="41.4684" cy="240.59" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="45.0729" cy="243.293" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="47.7761" cy="241.491" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="46.8747" cy="249.6" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="54.9841" cy="245.095" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="64.8952" cy="241.491" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="28.8552" cy="231.58" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="19.8444" cy="231.58" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="10.8356" cy="222.57" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="10.8356" cy="213.56" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="16.2409" cy="222.57" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="19.8444" cy="213.56" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="5.42841" cy="204.55" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="12.6364" cy="202.748" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="13.5378" cy="209.956" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="14.4392" cy="218.065" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="10.8356" cy="186.53" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="10.8356" cy="193.738" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="9.0329" cy="209.055" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="10.8356" cy="240.59" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="19.8444" cy="267.62" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="19.8444" cy="249.6" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="28.8552" cy="240.59" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="37.8649" cy="258.61" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="1.8249" cy="195.54" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="17.1423" cy="198.243" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="59.489" cy="238.788" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="101.836" cy="211.758" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="164.906" cy="184.728" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="184.728" cy="191.035" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="146.885" cy="157.698" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="245.095" cy="46.8749" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="259.51" cy="47.7759" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="237.887" cy="37.8649" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="72.1022" cy="79.311" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="69.4001" cy="87.42" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="67.5974" cy="98.232" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="66.697" cy="109.945" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="58.5886" cy="102.737" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="56.7858" cy="110.846" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="55.8854" cy="117.153" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="57.6872" cy="120.757" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="51.3806" cy="126.163" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="55.8854" cy="127.965" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="57.6872" cy="133.371" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="43.2712" cy="124.361" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="37.8649" cy="102.737" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="53.1813" cy="113.549" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="55.8854" cy="99.133" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="57.6872" cy="106.341" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="64.8952" cy="121.658" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="64.8952" cy="139.678" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="67.5974" cy="132.47" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="63.9938" cy="145.084" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="55.8854" cy="146.886" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="50.4792" cy="154.094" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="45.9733" cy="149.589" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="38.7653" cy="155.896" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="34.2604" cy="163.104" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="31.5583" cy="135.173" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="43.2712" cy="165.807" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="35.1618" cy="171.213" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="53.1813" cy="241.491" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="83.8161" cy="233.382" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="88.321" cy="236.986" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="76.6081" cy="240.59" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="82.9147" cy="241.491" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="82.0144" cy="236.986" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="90.1227" cy="231.58" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="57.6872" cy="258.61" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="99.1325" cy="252.303" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="109.945" cy="243.293" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="105.44" cy="236.085" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="133.371" cy="247.798" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="59.489" cy="267.62" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="22.5476" cy="154.094" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="18.9431" cy="142.381" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="8.13154" cy="157.698" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="16.2409" cy="130.668" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="46.8747" cy="162.203" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="10.8356" cy="174.817" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="14.4392" cy="172.114" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="15.3395" cy="177.52" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="31.5583" cy="135.173" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+          <circle cx="27.0524" cy="176.619" r="1.8249" fill="#ECCAB8" class="is-visible"/>
+        </svg>
+      </div>
+      <div class="c-overlay__text anime-fadein">
+        <img class="c-overlay__title" src="./assets/images/logo-text.svg" alt="Bievre invisible"/>
+        <p class="c-overlay__paragraph">Vous allez bientôt accéder à une rivière de connaissances.</p>
+      </div>
+      <div class="c-overlay__links anime-slideinbottom">
+        <button class="c-button c-button--primary c-button--start js-start__button">Démarrer l'experience</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- End screen -->
+  <div class="c-overlay js-overlay">
+    <span class="c-close__button js-close__button"></span>
+    <div class="c-overlay__content">
+      <div class="c-overlay__text">
+        <p class="c-overlay__paragraph">De retour en l’an 2020, on espère que ce petit voyage vous a inspirer. </p>
+        <p class="c-overlay__paragraph">Nous avons pour projet de creer ce type d’installation digital tout au long de
+          la Bievre d’Arceuil à Paris, si vous voulez nous soutenir ou simplement suivre le projet vous pouvez nous
+          laisser votre email:</p>
+      </div>
+      <div class="c-overlay__links">
+        <a href="mailto:bonjour@invisible-bievre.com" class="c-button c-button--primary">Email</a>
+        <a href="https://www.instagram.com/invisible_bievre/" class="c-button c-button--secondary">Instagram</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

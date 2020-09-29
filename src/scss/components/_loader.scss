@@ -1,0 +1,65 @@
+/* ************************ 
+  Loader screen 
+************************  */
+
+.c-loader {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: $color-black-trans-hard;
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .3s linear;
+}
+
+.c-loader.is-visible {
+  visibility: visible;
+  opacity: 1;
+  transition: all .3s linear;
+}
+
+.c-loader__svg {
+  width: 60px;
+}
+
+.c-loader__path {
+  stroke: $color-primary;
+  stroke-dasharray: 176;
+  stroke-dashoffset: 176;
+  animation: dash 1.8s linear infinite;
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dashoffset: 176;
+  }
+
+  100% {
+    stroke-dashoffset: 355;
+  }
+}
+
+.c-loader__instructions {
+  position: absolute;
+  width: 80%;
+  left: 10%;
+  bottom: 20px;
+  padding: 10px 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  text-align: center;
+  color: $color-primary;
+  display: block;
+  margin: 0 auto;
+}

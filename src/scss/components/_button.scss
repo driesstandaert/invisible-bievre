@@ -1,0 +1,30 @@
+/* ************************ 
+  Button
+************************  */
+
+.c-button {
+  text-transform: uppercase;
+  padding: 14px;
+  margin-bottom: 10px;
+  display: block;
+  text-decoration: none;
+  letter-spacing: .1rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  min-width: 200px;
+  max-width: 250px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+.c-button--primary {
+  background-color: $color-primary;
+  color: $black;
+}
+
+.c-button--secondary {
+  background-color: transparent;
+  color: $color-primary;
+}
