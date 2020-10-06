@@ -1,7 +1,3 @@
-/**
- * Assets Config file
- */
-
 const serverConfiguration = {
   internal: {
     server: {
@@ -15,14 +11,10 @@ const serverConfiguration = {
 };
 
 const path = require('path');
-// const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const TerserPlugin = require('terser-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-// const ImageMinPlugin = require('imagemin-webpack-plugin').default;
 
 let targetServerConfiguration = serverConfiguration.internal;
 
@@ -50,16 +42,6 @@ const config = function(env, args) {
           exclude: /(node_modules|bower_components)/,
           loader: 'babel-loader',
         },
-        // {
-        //   test: /\.(png|gif|jpg|jpeg)$/,
-        //   use: [
-        //     {
-        //       loader: 'url-loader',
-        //       // options: { name: 'assets/images/design/[name].[hash:6].[ext]', publicPath: '../', limit: 8192 },
-        //       options: { name: 'assets/images/design/[name].[ext]', publicPath: '../', limit: 8192 },
-        //     },
-        //   ],
-        // },
         {
           test: /\.(eot|svg|ttf|woff|woff2)$/,
           use: [
@@ -71,14 +53,6 @@ const config = function(env, args) {
         },
       ],
     },
-    // optimization: {
-    //   minimizer: [
-    //     new TerserPlugin({
-    //       parallel: true,
-    //     }),
-    //     new OptimizeCssAssetsPlugin({}),
-    //   ],
-    // },
     watchOptions: {
       poll: 1000,
       ignored: /node_modules/,
@@ -96,7 +70,7 @@ const config = function(env, args) {
         injectChanges: true,
         logFileChanges: true,
         logLevel: 'debug',
-        logPrefix: 'wepback',
+        logPrefix: 'webpack',
         notify: true,
         reloadDelay: 0,
       }),
@@ -110,15 +84,6 @@ const config = function(env, args) {
       new MiniCssExtractPlugin({
         filename: 'css/[name].css',
       }),
-      // new ImageMinPlugin({ test: /\.(jpg|jpeg|png|gif|svg)$/i }),
-      // new CleanWebpackPlugin({
-      //   /**
-      //    * Some plugins used do not correctly save to webpack's asset list.
-      //    * Disable automatic asset cleaning until resolved
-      //    */
-      //   cleanStaleWebpackAssets: false,
-      //   verbose: true,
-      // }),
       new CopyWebpackPlugin({
         patterns: [
           {
