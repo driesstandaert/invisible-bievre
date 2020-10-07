@@ -16,9 +16,11 @@ circle {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
+
 }
 
 .anime-fadein {
@@ -30,14 +32,17 @@ circle {
     opacity: 0;
     transform: translateY(20px);
   }
+
   60% {
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
   }
+
 }
 
 .anime-slideinbottom {
@@ -46,14 +51,17 @@ circle {
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba($color-primary, 0.5);
+    box-shadow: 0 0 0 0 $color-primary-trans-50;
   }
+
   75% {
-    box-shadow: 0 0 0 12px rgba($color-primary, 0);
+    box-shadow: 0 0 0 12px $color-primary-trans-0;
   }
+
   100% {
-    box-shadow: 0 0 0 0 rgba($color-primary, 0);
+    box-shadow: 0 0 0 0 $color-primary-trans-0;
   }
+
 }
 
 .anime-pulse {

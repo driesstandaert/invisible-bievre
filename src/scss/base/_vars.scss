@@ -12,8 +12,11 @@ $white: #fff;
 
 $body-background-color: #333;
 $color-primary: #eccab8;
+$color-primary-trans-0: rgba($color-primary, 0);
+$color-primary-trans-50: rgba($color-primary, .5);
 $color-secondary: #6cedfc;
 $color-tertiary: #87aeaa;
+$color-white-trans-10: rgba(255, 255, 255, .1);
 $color-black-trans-light: rgba(0, 0, 0, .35);
 $color-black-trans-hard: rgba(0, 0, 0, .9);
 
