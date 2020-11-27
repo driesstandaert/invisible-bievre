@@ -68,44 +68,6 @@ AFRAME.registerComponent('transparent-in-ar-mode', {
   }
 });
 
-// ////////////////////
-// Create water affect
-// ////////////////////
-
-AFRAME.registerComponent('wobble-normal', {
-	schema: {},
-	tick: function (t) {
-    if (!this.el.components.material.material.normalMap) return;
-		this.el.components.material.material.normalMap.offset.x += 0.0001 * Math.sin(t/10000);
-		this.el.components.material.material.normalMap.offset.y += 0.0001 * Math.cos(t/8000);
-		this.el.components.material.material.normalScale.x = 0.5 + 0.5 * Math.cos(t/1000);
-		this.el.components.material.material.normalScale.x = 0.5 + 0.5 * Math.sin(t/1200);
-	}
-})
-
-AFRAME.registerPrimitive('a-ocean-plane', {
-	defaultComponents: {
-		geometry: {
-			primitive: 'plane',
-			height: 1000,
-			width: 1000
-		},
-    rotation: '-90 0 0',
-		material: {
-			shader: 'standard',
-			color: '#A3D3D5',
-			metalness: 1,
-			roughness: 0.1,
-			normalMap: 'url(./waternormals.jpg)',
-			normalTextureRepeat: '50 50',
-			normalTextureOffset: '0 0',
-			normalScale: '0.5 0.5',
-			opacity: 0 // Start opacity 0. See animation on Start event.
-		},
-		'wobble-normal': {}
-	},
-});
-
 // ////////////////////////////////////////
 // // Loading screen before model is loaded
 // ////////////////////////////////////////
@@ -142,5 +104,55 @@ AFRAME.registerPrimitive('a-ocean-plane', {
 //     };
 //   }
 // });
+
+// ////////////////////////////////////////
+// // Aframe mirror
+// // https://github.com/aalavandhaann/three_reflector
+// ////////////////////////////////////////
+
+AFRAME.registerComponent('aframe-mirror', 
+{
+	schema:{
+	    textureOne: {default: undefined},
+	    textureTwo: {default: undefined},
+	    wrapOne: 
+	    {
+	    	type: 'vec2',
+	    	default: {x: 1, y: 1}
+	    },
+	    wrapTwo: 
+	    {
+	    	type: 'vec2',
+	    	default: {x: 1, y: 1}
+	    },
+	    invertedUV:
+	    {
+	    	type: 'bool',
+	    	default: false
+	    },
+	    textureWidth: {default: 512},
+	    textureHeight: {default: 512},
+	    color: {default: new THREE.Color(0xe445f8)},
+	    intensity: {default: 1.0},
+	    blendIntensity: {default: 0.5},
+	},
+	init: function () 
+	{
+	    var scene = this.el.sceneEl;
+	    var three_scene = scene.object3D;
+	    var mirrorObj = this.el.getObject3D('mesh');
+
+	    if(!mirrorObj)
+	    {
+	    	return;
+	    }
+
+	    var gscenereflector = Ashok.GroundSceneReflector(mirrorObj, scene.renderer, three_scene, this.data);
+	},
+	tick: function () 
+	{	    	
+
+	}
+});
 
 

@@ -31,7 +31,7 @@ const soundRiver = new Howl({
 window.onload = function () {
   var scene = document.querySelector('a-scene');
   var sky = document.querySelector('.js-sky');
-  var ocean = document.querySelector('a-ocean-plane');
+ var river = document.querySelector('.js-river');
   var cloud = document.querySelector('.js-cloud');
   var cloud2 = document.querySelector('.js-cloud2');
   var light = document.querySelector('.js-light');
@@ -114,7 +114,7 @@ window.onload = function () {
       cloud.setAttribute('animation__fadein', 'property: material.opacity; from: 0; to: 1; dur: 4000; delay:0');
       cloud2.setAttribute('animation__fadein', 'property: material.opacity; from: 0; to: 1; dur: 4000; delay:0');
       light.setAttribute('animation', 'property: light.intensity; to: 1; dur: 2000; easing: linear; delay:0');
-      ocean.setAttribute('animation', 'property: material.opacity; from: 0; to: .6; dur: 2000; delay:0');
+      river.setAttribute('animation', 'property: material.opacity; from: 0; to: .6; dur: 2000; delay:0');
     }
 
     setTimeout(

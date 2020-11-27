@@ -6,6 +6,8 @@
   <meta name="description" content="Invisible Bievre">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <script src="./js/vendor/aframe/aframe-v1.0.4.min.js"></script>
+  <script src="https://cdn.rawgit.com/tizzle/aframe-orbit-controls-component/v0.1.14/dist/aframe-orbit-controls-component.min.js"></script>
+  <script src="./js/vendor/three_reflector/GroundSceneReflector.js"></script>
   <script src="./js/vendor/aframe/aframe-custom.js"></script>
   <script src="./js/vendor/aframe/aframe-curve-component.min.js"></script>
   <script src="./js/vendor/aframe/aframe-alongpath-component.min.js"></script>
@@ -47,8 +49,7 @@
       ></a-entity>
 
       <!-- Water plane -->
-      <a-ocean-plane material="normalMap: #water-normal; sphericalEnvMap: #reflection;" position="0 0 0" box-loader>
-      </a-ocean-plane>
+      <a-plane class="js-river" position="0 0 0" rotation="-90 0 0" width="200" height="200" aframe-mirror="color:#080D28;intensity:0.4;textureWidth:2048;textureHeight:2048;"></a-plane>
 
       <!-- Sky background -->
       <a-sky src="#skysphere" transparent-in-ar-mode></a-sky>
@@ -98,7 +99,7 @@
         class="js-cloud2"
         src="#cloud-2" 
         width="10" height="5" 
-        position="-120 40 100" 
+        position="-120 40 104" 
         rotation="0 0 0" 
         scale="20 20 20"
         transparent-in-ar-mode
