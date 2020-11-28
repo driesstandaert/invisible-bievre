@@ -18,7 +18,6 @@
     loading-screen="enabled: false">
     <a-assets>
       <a-asset-item id="beaver" src="./assets/models/beaver/scene.gltf"></a-asset-item>
-      <a-asset-item id="trout" src="./assets/models/trout/scene.gltf"></a-asset-item>
       <a-asset-item id="landscape" src="./assets/models/landscape/scene.gltf"></a-asset-item>
       <a-asset-item id="bridge" src="./assets/models/bridge/scene.gltf"></a-asset-item>
       <a-asset-item id="tree" src="./assets/models/tree/scene.gltf"></a-asset-item>
@@ -90,7 +89,7 @@
         position="100 40 72" 
         rotation="0 0 0" 
         scale="20 20 20"
-        animation="property: position; to: 20 40 100; loop: true; dur: 100000; easing: linear; dir:alternate;"
+        animation="property: position; to: 20 40 72; loop: true; dur: 100000; easing: linear; dir:alternate;"
         transparent-in-ar-mode
       ></a-image>
 
@@ -136,25 +135,6 @@
         <a-curve-point position="4 -1.25 48"></a-curve-point>
         <a-curve-point position="22 -1.25 93"></a-curve-point>
       </a-curve>
-
-      <!-- trout -->
-      <a-entity 
-          rotation="0 0 0" 
-          position="5 -1 2" 
-          animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear; dir:reverse;"
-          animation__pos="property: position; to: 2 -1 2; loop:true; dur: 10000; easing: linear; dir:alternate;"
-        >
-          <a-entity 
-          id="model-trout"
-          gltf-model="#trout"
-          rotation="0 20 0"
-          scale=".5 .5 .5" 
-          position="2 -.25 0" 
-          play-all-model-animations
-          box-loader
-        >
-        </a-entity>
-      </a-entity>
 
       <!-- sticks -->
       <a-entity 
