@@ -27,6 +27,13 @@ const soundRiver = new Howl({
   volume: .2
 });
 
+const soundBirds = new Howl({
+  src: ['./assets/audio/birds.mp3'],
+  html5: true, // Force to HTML5 so that the audio can stream in. Plays on IOS.
+  loop: true,
+  volume: .2
+});
+
 
 window.onload = function () {
   var scene = document.querySelector('a-scene');
@@ -72,9 +79,11 @@ window.onload = function () {
     this.classList.toggle('is-muted');
     if (this.classList.contains('is-muted')) {
       soundRiver.mute(true)
+      soundBirds.mute(true)
       soundVoiceover.mute(true)
     } else {
       soundRiver.mute(false)
+      soundBirds.mute(false)
       soundVoiceover.mute(false)
     }
   });
@@ -83,10 +92,12 @@ window.onload = function () {
     this.classList.toggle('is-playing');
     if (this.classList.contains('is-playing')) {
       soundRiver.play();
+      soundBirds.play();
       soundVoiceover.play();
 
     } else {
       soundRiver.pause();
+      soundBirds.pause();
       soundVoiceover.pause();
     }
   });
@@ -106,7 +117,9 @@ window.onload = function () {
     loadinganime = false; // intro animation until scene starts
     function playSound () {
       var id1 = soundRiver.play();
+      var id2 = soundBirds.play();
       soundRiver.fade(0, .1, 2000, id1);
+      soundBirds.fade(0, .1, 2000, id2);
       soundVoiceover.play();
     }
     function fadeInScene () {
