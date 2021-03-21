@@ -8,6 +8,7 @@
   <script src="./js/vendor/aframe/aframe-v1.0.4.min.js"></script>
   <script src="./js/vendor/three_reflector/GroundSceneReflector.js"></script>
   <script src="./js/vendor/aframe/aframe-custom.js"></script>
+  <script src="./js/vendor/aframe/aframe-instanced-mesh.js"></script>
   <script src="./js/vendor/aframe/aframe-curve-component.min.js"></script>
   <script src="./js/vendor/aframe/aframe-alongpath-component.min.js"></script>
   <script src="./js/app.js"></script>
@@ -72,17 +73,7 @@
       </a-entity>
 
       <!-- bridge -->
-      <a-entity 
-        id="model-bridge"
-        gltf-model="#bridge" 
-        scale="1 1 1" 
-        position="13.5 -5.5 -2" 
-        rotation="0 0 0"
-        play-all-model-animations
-        box-loader 
-        hide-in-ar-mode
-        >
-      </a-entity>
+      <a-entity id="model-bridge" instanced-mesh="src: #bridge" rotation="0 74.76 0" position="2.50396 -9.74587 -5.19713"></a-entity>
 
       <!-- reed -->
       <a-entity 
