@@ -40,13 +40,15 @@
     <!-- Group -->
     <a-entity class="js-group" rotation="0 180 0">
 
-      <!-- Light -->
+      <!-- Lights -->
       <a-entity 
         class="js-light"
-        position="-10 100 100" 
-        light="color: #ffffff; intensity: 0.2"
+        position="-130 100 100"
+        light="color: #ffffb4; intensity: 1.5"
         hide-in-ar-mode
       ></a-entity>
+      <a-entity light="color: #002080; intensity: 1.5;" position="130 50 -100" hide-in-ar-mode></a-entity>
+      <a-entity light="type: ambient; color: #FFF; intensity: 0.3" hide-in-ar-mode></a-entity>
 
       <!-- Water plane -->
       <a-plane class="js-river" position="0 0 0" rotation="-90 0 0" width="200" height="200" aframe-mirror="color:#080D28;intensity:0.4;textureWidth:2048;textureHeight:2048;" hide-in-ar-mode></a-plane>
@@ -140,8 +142,6 @@
           play-all-model-animations
           box-loader
           >
-          <a-light type="point" color="white" position="0.5 1.5 0" distance="10" angle="0"></a-light>
-          <a-light type="point" color="white" position="0 1 -1.5" distance="4" angle="180"></a-light>
         </a-entity>
       </a-entity> 
 
