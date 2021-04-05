@@ -25,12 +25,12 @@
       <a-asset-item id="stick" src="./assets/models/stick/scene.gltf"></a-asset-item>
       <a-asset-item id="stick2" src="./assets/models/stick2/scene.gltf"></a-asset-item>
       <a-asset-item id="bird" src="./assets/models/bird/scene.gltf"></a-asset-item>
+      <a-asset-item id="trees" src="./assets/models/trees/scene.gltf"></a-asset-item>
       <img id="water-normal" src="./assets/textures/waternormals.jpg" crossorigin="anonymous" />
       <img id="skysphere" src="./assets/textures/riverbed.jpg" crossorigin="anonymous" />
       <img id="reflection" src="./assets/textures/reflection.jpg" crossorigin="anonymous" />
       <img id="tree-1" src="./assets/textures/tree-1.png" crossorigin="anonymous" />
       <img id="tree-2" src="./assets/textures/tree-2.png" crossorigin="anonymous" />
-      <img id="trees" src="./assets/textures/trees.png" crossorigin="anonymous" />
       <img id="cloud" src="./assets/textures/cloud.png" crossorigin="anonymous" />
       <img id="cloud-2" src="./assets/textures/cloud-2.png" crossorigin="anonymous" />
     </a-assets>
@@ -112,11 +112,8 @@
         transparent-in-ar-mode
       ></a-image>
 
-      <!-- tree -->
-      <a-image id="img-trees-1" src="#trees" width="30" height="18" position="18.5 9 18" rotation="0 244 0" transparent-in-ar-mode></a-image>
-      <a-image id="img-trees-2" src="#tree-2" width="30" height="16" position="15 6 23" rotation="0 244 0" scale=".9 .9 .9" transparent-in-ar-mode></a-image>
-      <a-image id="img-trees-3" src="#trees" width="30" height="18" position="-24 8 26" rotation="0 -50 0" scale="1 1 1" transparent-in-ar-mode></a-image>
-      <a-image id="img-trees-4" src="#tree-2" width="30" height="16" position="-26 7 -2" rotation="0 -80 10" scale=".5 .5 .5" transparent-in-ar-mode></a-image>
+      <!-- trees -->
+      <a-gltf-model src="#trees" position="11.5 -22 -3" hide-in-ar-mode></a-gltf-model>
 
       <!-- Beaver -->
       <a-entity 
