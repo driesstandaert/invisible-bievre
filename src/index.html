@@ -8,6 +8,7 @@
   <script src="./js/vendor/aframe/aframe-v1.0.4.min.js"></script>
   <script src="./js/vendor/three_reflector/GroundSceneReflector.js"></script>
   <script src="./js/vendor/aframe/aframe-custom.js"></script>
+  <script src="./js/vendor/aframe/aframe-instanced-mesh.js"></script>
   <script src="./js/vendor/aframe/aframe-curve-component.min.js"></script>
   <script src="./js/vendor/aframe/aframe-alongpath-component.min.js"></script>
   <script src="./js/app.js"></script>
@@ -24,12 +25,12 @@
       <a-asset-item id="stick" src="./assets/models/stick/scene.gltf"></a-asset-item>
       <a-asset-item id="stick2" src="./assets/models/stick2/scene.gltf"></a-asset-item>
       <a-asset-item id="bird" src="./assets/models/bird/scene.gltf"></a-asset-item>
+      <a-asset-item id="trees" src="./assets/models/trees/scene.gltf"></a-asset-item>
       <img id="water-normal" src="./assets/textures/waternormals.jpg" crossorigin="anonymous" />
       <img id="skysphere" src="./assets/textures/riverbed.jpg" crossorigin="anonymous" />
       <img id="reflection" src="./assets/textures/reflection.jpg" crossorigin="anonymous" />
       <img id="tree-1" src="./assets/textures/tree-1.png" crossorigin="anonymous" />
       <img id="tree-2" src="./assets/textures/tree-2.png" crossorigin="anonymous" />
-      <img id="trees" src="./assets/textures/trees.png" crossorigin="anonymous" />
       <img id="cloud" src="./assets/textures/cloud.png" crossorigin="anonymous" />
       <img id="cloud-2" src="./assets/textures/cloud-2.png" crossorigin="anonymous" />
     </a-assets>
@@ -40,13 +41,15 @@
     <!-- Group -->
     <a-entity class="js-group" rotation="0 180 0">
 
-      <!-- Light -->
+      <!-- Lights -->
       <a-entity 
         class="js-light"
-        position="-10 100 100" 
-        light="color: #ffffff; intensity: 0.2"
+        position="-130 100 100"
+        light="color: #ffffb4; intensity: 2.5"
         hide-in-ar-mode
       ></a-entity>
+      <a-entity light="color: #002080; intensity: 2.5;" position="130 50 -100" hide-in-ar-mode></a-entity>
+      <a-entity light="type: ambient; color: #FFF; intensity: 0.8" hide-in-ar-mode></a-entity>
 
       <!-- Water plane -->
       <a-plane class="js-river" position="0 0 0" rotation="-90 0 0" width="200" height="200" aframe-mirror="color:#080D28;intensity:0.4;textureWidth:2048;textureHeight:2048;" hide-in-ar-mode></a-plane>
@@ -70,17 +73,7 @@
       </a-entity>
 
       <!-- bridge -->
-      <a-entity 
-        id="model-bridge"
-        gltf-model="#bridge" 
-        scale="1 1 1" 
-        position="13.5 -5.5 -2" 
-        rotation="0 0 0"
-        play-all-model-animations
-        box-loader 
-        hide-in-ar-mode
-        >
-      </a-entity>
+      <a-entity id="model-bridge" instanced-mesh="src: #bridge" rotation="0 74.76 0" position="2.50396 -9.74587 -5.19713"></a-entity>
 
       <!-- reed -->
       <a-entity 
@@ -119,11 +112,8 @@
         transparent-in-ar-mode
       ></a-image>
 
-      <!-- tree -->
-      <a-image id="img-trees-1" src="#trees" width="30" height="18" position="18.5 9 18" rotation="0 244 0" transparent-in-ar-mode></a-image>
-      <a-image id="img-trees-2" src="#tree-2" width="30" height="16" position="15 6 23" rotation="0 244 0" scale=".9 .9 .9" transparent-in-ar-mode></a-image>
-      <a-image id="img-trees-3" src="#trees" width="30" height="18" position="-24 8 26" rotation="0 -50 0" scale="1 1 1" transparent-in-ar-mode></a-image>
-      <a-image id="img-trees-4" src="#tree-2" width="30" height="16" position="-26 7 -2" rotation="0 -80 10" scale=".5 .5 .5" transparent-in-ar-mode></a-image>
+      <!-- trees -->
+      <a-gltf-model src="#trees" position="11.5 -22 -3" hide-in-ar-mode></a-gltf-model>
 
       <!-- Beaver -->
       <a-entity 
@@ -140,8 +130,6 @@
           play-all-model-animations
           box-loader
           >
-          <a-light type="point" color="white" position="0.5 1.5 0" distance="10" angle="0"></a-light>
-          <a-light type="point" color="white" position="0 1 -1.5" distance="4" angle="180"></a-light>
         </a-entity>
       </a-entity> 
 

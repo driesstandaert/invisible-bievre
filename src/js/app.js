@@ -126,7 +126,7 @@ window.onload = function () {
       sky.setAttribute('animation__fadein', 'property: material.opacity; from: 1; to: 0; dur: 4000; delay:0');
       cloud.setAttribute('animation__fadein', 'property: material.opacity; from: 0; to: 1; dur: 4000; delay:0');
       cloud2.setAttribute('animation__fadein', 'property: material.opacity; from: 0; to: 1; dur: 4000; delay:0');
-      light.setAttribute('animation', 'property: light.intensity; to: .2; dur: 2000; easing: linear; delay:0');
+      light.setAttribute('animation', 'property: light.intensity; from: 0 to: 1.5; dur: 2000; easing: linear; delay:0');
       river.setAttribute('animation', 'property: material.opacity; from: 0; to: .6; dur: 2000; delay:0');
     }
 
