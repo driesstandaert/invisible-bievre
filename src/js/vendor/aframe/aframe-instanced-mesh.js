@@ -6,7 +6,8 @@ if (typeof AFRAME === 'undefined') {
 
 AFRAME.registerComponent('instanced-mesh', {
    schema: {
-      src: { type: 'model' }
+      src: { type: 'model' },
+      refName: { type: 'string' } // Name of the reference object that holds the instanced mesh
    },
 
    init: function () {
@@ -15,17 +16,33 @@ AFRAME.registerComponent('instanced-mesh', {
 
    update: function () {
       var self = this;
-      var el = this.el;
-
       this.remove();
 
-      this.loader.load(this.data.src,
+      this.loader.load(self.data.src,
          function onLoaded(gltfModel) {
-            // Expect firt child to be the source mesh
-            var mesh = gltfModel.scene.children[0];
 
-            if (mesh.type != 'Mesh') {
-               console.error("Expected mesh type as first scene child");
+            var mesh;
+            if (self.data.refName) {
+               // Try to find the ref at the first level of the scene
+               let refObject = gltfModel.scene.children.find(element => element.name == self.data.refName);
+               if (!refObject) {
+                  console.warn("refName " + self.data.refName + " object not found")
+               }
+               else if (refObject.type != "Mesh") {
+                  console.warn("refName " + self.data.refName + " object is not a mesh")
+               }
+               else {
+                  mesh = refObject;
+               }
+            }
+
+            if (!mesh) {
+               // Default to first child
+               mesh = gltfModel.scene.children[0];
+            }
+
+            if (!mesh || mesh.type != 'Mesh') {
+               console.error("No mesh found");
                return;
             }
 
@@ -48,6 +65,9 @@ AFRAME.registerComponent('instanced-mesh', {
             self.geometry.maxInstancedCount = instances.length;
             self.instancedMesh = new THREE.InstancedMesh(self.geometry, self.material, instances.length);
 
+            // TODO: recalculate correct bounds. For now, simply dissable frustumCulling.
+            self.instancedMesh.frustumCulled = false;
+
             // Fill the matrices
             var i;
             for (i = 0; i < instances.length; ++i) {
@@ -63,7 +83,7 @@ AFRAME.registerComponent('instanced-mesh', {
          function onFailed(error) {
             var message = (error && error.message) ? error.message : 'Unkown error';
             console.error(message);
-            el.emit('model-error', { format: 'gltf', src: self.src });
+            self.el.emit('model-error', { format: 'gltf', src: self.src });
          });
    },
 })
